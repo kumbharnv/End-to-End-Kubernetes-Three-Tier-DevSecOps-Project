@@ -1,0 +1,20 @@
+pipeline {
+    agent any
+    stages {
+        stage('Cleaning Workspace') {
+            steps {
+                cleanWs()
+            }
+        }
+        stage('Checkout from Git') {
+            steps {
+                git credentialsId: 'GITHUB', url: 'https://github.com/kumbharnv/End-to-End-Kubernetes-Three-Tier-DevSecOps-Project.git'
+            }
+        }
+        stage('Deploy Database to Kubernetes') {
+            steps {
+                sh 'kubectl apply -f Kubernetes-Manifests-file/Database/ -n three-tier'
+            }
+        }
+    }
+}
